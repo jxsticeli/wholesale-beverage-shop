@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head> 
+    <title>Products</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/about/">About</a> |
+        <a href="/faq/">FAQ</a> |
+        <a href="/contact/">Contact</a>
+        <a href="/register/">Register</a> |
+        <a href="/login/">Login</a> |
+        <a href="/logout/">Logout</a>
+    </nav>
+
+    <hr>
+
+    <h1>Our Products</h1>
+
+    <h2>Shopping Cart</h2>
+
+<div id="cart">
+    Cart is empty
+</div>
+
+<h3 id="total">
+    Total: GH₵0
+</h3>
+
+<button onclick="generateSummary()">
+    Generate Order Summary
+</button>
+
+<div id="summary"></div>
+
+<hr>
+
+
+    <form method="GET">
+
+        <input
+            type="text"
+            name="search"
+            placeholder="Search products..."
+        >
+
+        <select name="category">
+
+            <option value="">
+                All Categories
+            </option>
+
+            {% for category in categories %}
+
+            <option value="{{ category.id }}">
+                {{ category.name }}
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+        <button type="submit">
+            Search
+        </button>
+
+    </form>
+
+    <br>
+
+    <p><strong>Products Available:</strong> {{ products|length }}</p>
+
+   <div class="product-container">
+
+{% for product in products %}
+
+<div class="product-card">
+
+    {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+    {% endif %}
+
+    <h3>{{ product.name }}</h3>
+
+    <p><strong>Category:</strong> {{ product.category }}</p>
+
+    <p><strong>Price:</strong> GH₵<span class="price">{{ product.price }}</span></p>
+
+    <p><strong>Stock:</strong> {{ product.stock }}</p>
+
+    <p>{{ product.description }}</p>
+
+    <label>Quantity:</label>
+    <input
+        type="number"
+        value="1"
+        min="1"
+        class="quantity"
+        id="qty{{ product.id }}"
+    >
+
+    <br><br>
+
+    <button
+    onclick="addToCart(
+        '{{ product.name }}',
+       '{{ product.price }}',
+        'qty{{ product.id }}'
+    )"
+>
+    Add to Cart
+</button>
+
+</div>
+
+{% empty %}
+
+<p>No products found.</p>
+
+{% endfor %}
+
+</div>
+<script>
+
+let cartItems = [];
+let totalPrice = 0;
+
+function addToCart(productName, price, quantityId)
+{
+    let quantity =
+        parseInt(
+            document.getElementById(quantityId).value
+        );
+
+    let itemTotal = quantity * price;
+
+    totalPrice += itemTotal;
+
+    cartItems.push(
+        {
+            name: productName,
+            quantity: quantity,
+            total: itemTotal
+        }
+    );
+
+    let cartHTML = "";
+
+    for(let item of cartItems)
+    {
+        cartHTML += `
+            <p>
+                ${item.name}
+                x ${item.quantity}
+                = GH₵${item.total}
+            </p>
+        `;
+    }
+
+    document.getElementById("cart").innerHTML =
+        cartHTML;
+
+    document.getElementById("total").innerHTML =
+        `Total: GH₵${totalPrice}`;
+}
+
+function generateSummary()
+{
+    let summaryHTML =
+        "<h2>ORDER SUMMARY</h2>";
+
+    for(let item of cartItems)
+    {
+        summaryHTML += `
+            <p>
+                ${item.name}
+                x ${item.quantity}
+                = GH₵${item.total}
+            </p>
+        `;
+    }
+
+    summaryHTML += `
+        <h3>
+            Grand Total:
+            GH₵${totalPrice}
+        </h3>
+    `;
+
+    document.getElementById("summary").innerHTML =
+        summaryHTML;
+}
+
+</script>
+<footer>
+    Wholesale Beverage Shop Management System © 2026
+</footer>
+</body>
+</html>

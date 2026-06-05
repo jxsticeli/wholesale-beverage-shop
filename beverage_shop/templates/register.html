@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<nav>
+    <a href="/">Home</a> |
+    <a href="/products/">Products</a> |
+    <a href="/about/">About</a> |
+    <a href="/faq/">FAQ</a> |
+    <a href="/contact/">Contact</a>
+</nav>
+
+<div class="form-container">
+
+```
+<h1>Create Account</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">
+        Register
+    </button>
+</form>
+
+</div>
+
+<footer>
+    Wholesale Beverage Shop Management System © 2026
+</footer>
+
+</body>
+</html>

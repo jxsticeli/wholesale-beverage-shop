@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Contact Us</title>
+</head>
+<body>
+
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/products/">Products</a> |
+        <a href="/about/">About</a> |
+        <a href="/faq/">FAQ</a>
+    </nav>
+<div class="page-container">
+   
+
+    <h1>Contact Us</h1>
+
+    <p>Email: jerryjustice516@gmail.com</p>
+    <p>Telephone: 0244830851</p>
+
+    <hr>
+
+    <h2>Send Us a Message</h2>
+
+    <form onsubmit="return validateForm()">
+
+        <label>Name:</label><br>
+        <input type="text" id="name"><br><br>
+
+        <label>Email:</label><br>
+        <input type="text" id="email"><br><br>
+
+        <label>Message:</label><br>
+        <textarea id="message"></textarea><br><br>
+
+        <button type="submit">
+            Submit
+        </button>
+
+    </form>
+
+    <script>
+
+    function validateForm()
+    {
+        let name =
+            document.getElementById("name").value;
+
+        let email =
+            document.getElementById("email").value;
+
+        let message =
+            document.getElementById("message").value;
+
+        if(name === "")
+        {
+            alert("Please enter your name.");
+            return false;
+        }
+
+        if(email === "")
+        {
+            alert("Please enter your email.");
+            return false;
+        }
+
+        if(!email.includes("@"))
+        {
+            alert("Please enter a valid email.");
+            return false;
+        }
+
+        if(message === "")
+        {
+            alert("Please enter a message.");
+            return false;
+        }
+
+        alert("Form submitted successfully!");
+        return true;
+    }
+
+    </script>
+    </div>
+<footer>
+    Wholesale Beverage Shop Management System © 2026
+</footer>
+</body>
+</html>
